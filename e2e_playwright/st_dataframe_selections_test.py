@@ -417,7 +417,7 @@ def test_that_index_cannot_be_selected(app: Page):
     expect_canvas_to_be_visible(canvas)
 
     canvas.scroll_into_view_if_needed()
-    # Try select a selectable columnÖ
+    # Try select a selectable column
     select_column(canvas, 2)
     wait_for_app_run(app)
 
