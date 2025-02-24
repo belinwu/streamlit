@@ -628,7 +628,7 @@ function DataFrame({
   )
 
   // Determine if the table requires horizontal or vertical scrolling:
-  React.useEffect(() => {
+  React.useLayoutEffect(() => {
     // The setTimeout is a workaround to get the scroll area bounding box
     // after the grid has been rendered. Otherwise, the scroll area div
     // (dvn-stack) might not have been created yet.
