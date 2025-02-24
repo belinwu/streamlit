@@ -92,6 +92,7 @@ def test_data_editor_delete_row_via_toolbar(
 
     # The toolbar should be locked (visible):
     expect(data_editor_toolbar).to_have_css("opacity", "1")
+    themed_app.wait_for_timeout(1000)  # Additional wait before taking snapshot
     # Take snapshot to check if trash icon is in toolbar:
     assert_snapshot(data_editor_toolbar, name="st_data_editor-row_deletion_toolbar")
 
