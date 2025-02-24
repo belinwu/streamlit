@@ -232,13 +232,18 @@ def test_multi_column_select(app: Page):
 
 
 def _select_some_rows_and_columns(app: Page, canvas: Locator):
+    print("Selecting row 1")
     select_row(canvas, 1)
+    app.wait_for_timeout(100)  # Add a small wait
     # Column 0 is the row marker column
+    print("Selecting columns")
     select_column(canvas, 2, has_row_marker_col=True)
     app.keyboard.down(COMMAND_KEY)
     select_column(canvas, 4, has_row_marker_col=True)
     select_column(canvas, 5, has_row_marker_col=True)
     app.keyboard.up(COMMAND_KEY)
+    app.wait_for_timeout(100)  # Add a small wait
+    print("Selecting row 3")
     select_row(canvas, 3)
     wait_for_app_run(app)
 
