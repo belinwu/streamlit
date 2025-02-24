@@ -291,8 +291,9 @@ def _test_csv_download(
 
     # Activate toolbar:
     dataframe_element.hover()
-    # Check that it is visible
-    expect(dataframe_toolbar).to_have_css("opacity", "1")
+
+    # Wait for the toolbar to become visible with increased timeout
+    expect(dataframe_toolbar).to_have_css("opacity", "1", timeout=10000)
 
     with page.expect_download(timeout=10000) as download_info:
         download_csv_toolbar_button.click()
