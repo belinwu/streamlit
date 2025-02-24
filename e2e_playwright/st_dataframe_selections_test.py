@@ -448,7 +448,8 @@ def test_that_index_cannot_be_selected(app: Page):
 
     # Try to click on another column and check that in can be selected:
     select_column(canvas, 1)
-    wait_for_app_run(app)
+    # Add a longer wait to ensure the selection is properly registered in React 18
+    wait_for_app_run(app, 500)
 
     # Check selection:
     expect_prefixed_markdown(

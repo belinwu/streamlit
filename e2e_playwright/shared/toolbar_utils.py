@@ -51,10 +51,16 @@ def assert_fullscreen_toolbar_button_interactions(
     # Click on expand to fullscreen button:
     fullscreen_toolbar_button.click()
 
+    # Wait for the fullscreen transition to complete
+    app.wait_for_timeout(1000)
+
     # Make sure that the button shows the close fullscreen button
     expect(
         widget_toolbar.get_by_role("button", name="Close fullscreen")
     ).to_be_visible()
+
+    # Wait for any post-transition rendering to complete
+    app.wait_for_timeout(500)
 
     # Check that it is visible
     assert_snapshot(
@@ -66,8 +72,14 @@ def assert_fullscreen_toolbar_button_interactions(
     # Click again on fullscreen button to close fullscreen mode:
     fullscreen_toolbar_button.click()
 
+    # Wait for the fullscreen exit transition to complete
+    app.wait_for_timeout(1000)
+
     # Make sure that the button shows the open fullscreen button
     expect(widget_toolbar.get_by_role("button", name="Fullscreen")).to_be_visible()
+
+    # Wait for any post-transition rendering to complete
+    app.wait_for_timeout(500)
 
     assert_snapshot(
         fullscreen_wrapper,

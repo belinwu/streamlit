@@ -276,6 +276,9 @@ def select_column(
         has_row_marker_col=has_row_marker_col,
     )
 
+    # Add a small wait after clicking to ensure the click is registered in React 18
+    dataframe_element.page.wait_for_timeout(50)
+
 
 def get_open_cell_overlay(page: Page | Locator) -> Locator:
     """Get the currently open cell overlay / editor.

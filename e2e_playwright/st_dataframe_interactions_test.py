@@ -148,6 +148,16 @@ def test_data_editor_add_row_via_toolbar(
     add_row_button.click()
     add_row_button.click()
 
+    # Wait for the component to fully render after adding rows
+    # Wait for any animations to complete and for the component to stabilize
+    app.wait_for_timeout(1000)
+
+    # Ensure the data editor is in a stable state by clicking away from it
+    unfocus_dataframe(app)
+
+    # Wait for any post-unfocus rendering to complete
+    app.wait_for_timeout(500)
+
     # Take a snapshot to check if rows are added:
     assert_snapshot(data_editor_element, name="st_data_editor-added_rows_via_toolbar")
 
@@ -232,6 +242,16 @@ def test_clicking_on_fullscreen_toolbar_button(
     """Test that clicking on fullscreen toolbar button expands the dataframe into
     fullscreen."""
 
+    # Get the dataframe element
+    dataframe_element = app.get_by_test_id("stDataFrame").nth(4)
+
+    # Ensure the dataframe is fully loaded before proceeding
+    expect_canvas_to_be_visible(dataframe_element)
+
+    # Wait for any initial animations to complete
+    app.wait_for_timeout(500)
+
+    # Call the shared function with additional wait time for transitions
     assert_fullscreen_toolbar_button_interactions(
         app,
         assert_snapshot=assert_snapshot,
