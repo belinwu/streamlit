@@ -64,6 +64,14 @@ export function useDebouncedCallback<A extends unknown[]>(
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const argsRef = useRef<A>()
 
+  // Keep a stable reference to the latest callback
+  const callbackRef = useRef(callback)
+
+  // Update the callback ref when callback changes
+  useEffect(() => {
+    callbackRef.current = callback
+  }, [callback])
+
   const cancel = useCallback((): void => {
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current)
@@ -82,12 +90,13 @@ export function useDebouncedCallback<A extends unknown[]>(
 
       timeoutRef.current = setTimeout(() => {
         if (argsRef.current) {
-          callback(...argsRef.current)
+          // Use the latest callback from the ref
+          callbackRef.current(...argsRef.current)
           argsRef.current = undefined
         }
       }, delay)
     },
-    [callback, delay, cancel]
+    [delay, cancel]
   )
 
   return {

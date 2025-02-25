@@ -430,17 +430,25 @@ function DataFrame({
         })
 
         selectionState.selection?.columns?.forEach(column => {
-          columnSelection = columnSelection.add(columnNames.indexOf(column))
+          // Check if column exists before adding to selection
+          const columnIndex = columnNames.indexOf(column)
+          if (columnIndex !== -1) {
+            columnSelection = columnSelection.add(columnIndex)
+          }
         })
 
         if (rowSelection.length > 0 || columnSelection.length > 0) {
-          // Update the initial selection state if something was selected
-          const initialSelection: GridSelection = {
-            rows: rowSelection,
-            columns: columnSelection,
-            current: undefined,
-          }
-          processSelectionChange(initialSelection)
+          // Wait for next render cycle to ensure the grid is ready
+          // This helps with React 18's concurrent rendering
+          setTimeout(() => {
+            // Update the initial selection state if something was selected
+            const initialSelection: GridSelection = {
+              rows: rowSelection,
+              columns: columnSelection,
+              current: undefined,
+            }
+            processSelectionChange(initialSelection)
+          }, 0)
         }
       }
     },
